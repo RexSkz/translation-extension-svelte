@@ -1,0 +1,56 @@
+@import './normalize.less';
+
+@import './colors.less';
+@import './fonts.less';
+@import './sizes.less';
+
+@prefix: 'ssc';
+
+body {
+  .font-body-1();
+  font-family: @font-family-normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+}
+
+pre, code, var {
+  .font-body-1();
+  font-family: @font-family-code;
+}
+
+h1,
+.ssc-font-h1 {
+  .font-h1();
+}
+
+h2,
+.ssc-font-h2 {
+  .font-h2();
+}
+
+h3,
+.ssc-font-h3 {
+  .font-h3();
+}
+
+h4,
+.ssc-font-h4 {
+  .font-h4();
+}
+
+.ssc-font-subtitle-1 {
+  .font-subtitle-1();
+}
+
+.ssc-font-body-1 {
+  .font-body-1();
+}
+
+.ssc-font-body-2 {
+  .font-body-2();
+}
+
+.ssc-close-icon {
+  width: 12px;
+  height: 12px;
+}
