@@ -6,6 +6,7 @@ specifiers:
   '@rollup/plugin-node-resolve': ^11.0.0
   '@rollup/plugin-typescript': ^8.0.0
   '@tsconfig/svelte': ^2.0.0
+  '@types/webextension-polyfill': ^0.8.2
   classnames: ^2.3.1
   esbuild: ^0.14.10
   postcss: ^7.0.7
@@ -35,6 +36,7 @@ devDependencies:
   '@rollup/plugin-node-resolve': 11.2.1_rollup@2.67.1
   '@rollup/plugin-typescript': 8.3.0_86c7512d54e5fcf3b546877c26442da8
   '@tsconfig/svelte': 2.0.1
+  '@types/webextension-polyfill': 0.8.2
   esbuild: 0.14.21
   postcss: 7.0.39
   rollup: 2.67.1
@@ -216,6 +218,10 @@ packages:
     resolution: {integrity: sha512-BPdoIt1lfJ6B7rw35ncdwBZrAssjcwzI5LByIrYs+tpXlj/CAkuVdRsgZDdP4lq5EjyWzwxZCqAoFyHKFwp32g==}
     dependencies:
       '@types/node': 17.0.16
+    dev: true
+
+  /@types/webextension-polyfill/0.8.2:
+    resolution: {integrity: sha512-Pd+p5AQx6s78jr4gDC2p3vbw+uxP2DLLqE9iAJJpZ+OUqDm3txr6uN2wUBEwjVgZTNdBHPsxawGvPCTipF2s6w==}
     dev: true
 
   /ansi-styles/3.2.1:

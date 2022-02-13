@@ -58,7 +58,7 @@ const onSearchButtonClick = () => {
             </div>
             <div class="text">
               <span class="lang">
-                <Tag color="gray" style="font-weight: 500">CN</Tag>
+                <Tag color="gray" style="font-weight: 500">ZH</Tag>
               </span>
               {word['中文']}
             </div>
@@ -89,15 +89,13 @@ const onSearchButtonClick = () => {
 :global {
   html, body {
     position: relative;
-    width: 100%;
-    height: 100%;
     background: @color-gray-background;
   }
 
   body {
     color: #333;
     margin: 0;
-    padding: 16px;
+    padding: 0;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   }
@@ -120,6 +118,11 @@ const onSearchButtonClick = () => {
   }
 }
 
+main {
+  width: 480px;
+  margin: 16px;
+}
+
 .search-area {
   display: flex;
 }
@@ -136,6 +139,8 @@ const onSearchButtonClick = () => {
   list-style: none;
   margin: 0;
   padding: 0;
+  max-height: 360px;
+  overflow-y: auto;
 
   li {
     background: #fff;
@@ -146,6 +151,14 @@ const onSearchButtonClick = () => {
     font-size: 14px;
     line-height: 1.5;
     position: relative;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
 
     .text {
       margin-bottom: 4px;
@@ -176,7 +189,7 @@ const onSearchButtonClick = () => {
   justify-content: center;
   align-items: center;
   height: 200px;
-  opacity: 0.2;
+  opacity: 0.5;
   font-size: 1.5em;
   font-weight: 300;
 }

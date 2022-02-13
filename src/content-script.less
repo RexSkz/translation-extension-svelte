@@ -1,0 +1,109 @@
+@import './components/_styles/base.less';
+
+@keyframes enter {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes exit {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+.translate-extension-popup {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  z-index: 9999;
+  overflow: auto;
+  background-color: @color-gray-background;
+  border-radius: 4px;
+  box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  animation: enter 0.2s ease-out;
+  transition: width 0.2s, height 0.2s;
+  cursor: pointer;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &.exit {
+    animation: exit 0.2s ease-out forwards;
+  }
+
+  .translate-extension-popup-title,
+  .translate-extension-popup-items {
+    display: none;
+  }
+
+  &.expand {
+    width: 320px;
+    height: 240px;
+    cursor: unset;
+
+    .translate-extension-popup-title,
+    .translate-extension-popup-items {
+      display: block;
+    }
+
+    .translate-extension-popup-title {
+      background: @color-gray-background;
+      line-height: 14px;
+      margin: 0 8px;
+      padding: 12px 0;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .translate-extension-popup-items {
+      padding: 0 8px;
+
+      .translate-extension-popup-item {
+        position: relative;
+        margin: 8px 0;
+        padding: 8px 0 8px 8px;
+        background: #fff;
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        &-text {
+          b {
+            background-color: #F5F6F9;
+            color: #646B76;
+            font-family: 'source code variable', consolas, menlo, monaco, 'courier new', 'ubuntu mono', 'pingfang sc', '微软雅黑', '微軟正黑體', 'wenquanyi micro hei', monospace !important;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 0 4px;
+          }
+
+          &.source {
+            float: right;
+            margin-right: 8px;
+            padding: 0 4px;
+            background-color: #FFF5F0;
+            border-radius: 4px;
+            color: #EE4D2D;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}

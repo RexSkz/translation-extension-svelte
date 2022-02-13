@@ -5,6 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import esbuild from 'rollup-plugin-esbuild';
 import css from 'rollup-plugin-css-only';
+import less from 'rollup-plugin-less-modules';
 import dsv from '@rollup/plugin-dsv';
 
 import sveltePreprocess from 'svelte-preprocess';
@@ -76,7 +77,6 @@ export default [
       file: 'public/build/background.js',
       globals: { 'webextension-polyfill': 'browser' },
     },
-    external: ['webextension-polyfill'],
     plugins: [
       resolve(),
       commonjs(),
@@ -90,15 +90,16 @@ export default [
     },
   },
   {
-    input: 'src/injection.ts',
+    input: 'src/content-script.ts',
     output: {
       sourcemap: true,
       format: 'iife',
-      file: 'public/build/injection.js',
+      file: 'public/build/content-script.js',
       globals: { 'webextension-polyfill': 'browser' },
     },
-    external: ['webextension-polyfill'],
     plugins: [
+      less({ output: 'public/build/content-script.css' }),
+      dsv(),
       resolve(),
       commonjs(),
       esbuild({
