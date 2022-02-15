@@ -45,8 +45,12 @@
     animation: exit 0.2s ease-out forwards;
   }
 
-  .translate-extension-popup-title,
-  .translate-extension-popup-items {
+  &-thumbnail {
+    margin: 4px;
+  }
+
+  &-title,
+  &-items {
     display: none;
   }
 
@@ -54,6 +58,10 @@
     width: 320px;
     height: 240px;
     cursor: unset;
+
+    .translate-extension-popup-thumbnail {
+      display: none;
+    }
 
     .translate-extension-popup-title,
     .translate-extension-popup-items {

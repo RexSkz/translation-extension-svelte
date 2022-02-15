@@ -1,7 +1,45 @@
-import matchSearchWord from './utils/match-search-word';
-import wordList from './wordlist.csv';
+import matchAllWords from './utils/match-all-words';
+
+import icon from '../public/icons/48.png';
 
 import './content-script.less';
+
+const ellipsis = (text: string, maxLength: number) => {
+  if (text.length <= maxLength) {
+    return text;
+  }
+
+  return `${text.substr(0, maxLength)}...`;
+};
+
+const createPopup = (e: MouseEvent, searchResult: Word[], text: string) => {
+  const expandDiv = document.createElement('div');
+  expandDiv.classList.add('translate-extension-popup');
+  expandDiv.style.top = `${e.pageY}px`;
+  expandDiv.style.left = `${e.pageX}px`;
+
+  expandDiv.innerHTML = [
+    `<img src="${icon}" width="24" class="translate-extension-popup-thumbnail"></img>`,
+    `<div class="translate-extension-popup-title">Words in "${ellipsis(text, 10)}"</div>`,
+    '<div class="translate-extension-popup-items">',
+    searchResult.map(result => {
+      const s = [
+        `<div class="translate-extension-popup-item-text source">${result.src}</div>`,
+        `<div class="translate-extension-popup-item-text"><b>EN</b> ${result.en}</div>`,
+        `<div class="translate-extension-popup-item-text"><b>ZH</b> ${result.zh}</div>`,
+      ];
+      if (result['备注']) {
+        s.push(`<div class="translate-extension-popup-item-text">${result.desc}</div>`);
+      }
+      return `<div class="translate-extension-popup-item">${s.join('')}</div>`;
+    }).join(''),
+    '</div>',
+  ].join('');
+
+  document.body.appendChild(expandDiv);
+
+  return expandDiv;
+};
 
 const highlightHandler = (e: MouseEvent) => {
   if (e.composedPath().some((el: HTMLElement) => el.classList && el.classList.contains('translate-extension-popup'))) {
@@ -10,65 +48,37 @@ const highlightHandler = (e: MouseEvent) => {
 
   const selection = document.getSelection();
   const text = selection.toString().trim();
-  if (text) {
-    if (!text) {
+  if (!text) {
+    return;
+  }
+
+  const openPopupThumb = async () => {
+    const searchResult = await matchAllWords(text);
+    if (!searchResult.length) {
       return;
     }
 
-    setTimeout(() => {
-      const lower = text.toLowerCase();
-      const searchResult = wordList.filter(word => matchSearchWord(lower, word)) || [];
+    const expandDiv = createPopup(e, searchResult, text);
 
-      if (searchResult.length === 0) {
+    const close = (e: MouseEvent) => {
+      if (e.composedPath().includes(expandDiv)) {
         return;
       }
+      expandDiv.classList.add('exit');
+      document.removeEventListener('click', close);
+      setTimeout(expandDiv.remove, 200);
+    };
 
-      const expandDiv = document.createElement('div');
-      expandDiv.classList.add('translate-extension-popup');
-      expandDiv.style.top = `${e.pageY}px`;
-      expandDiv.style.left = `${e.pageX}px`;
+    const expand = function () {
+      this.classList.add('expand');
+      this.removeEventListener('click', expand);
+    };
 
-      expandDiv.innerHTML = [
-        `<div class="translate-extension-popup-title">Translation of "${text.substring(0, 10)}${text.length > 10 ? '...' : ''}"</div>`,
-        '<div class="translate-extension-popup-items">',
-        searchResult.map(result => {
-          const s = [
-            `<div class="translate-extension-popup-item-text source">${result['模块']}</div>`,
-            `<div class="translate-extension-popup-item-text"><b>EN</b> ${result['英文']}</div>`,
-            `<div class="translate-extension-popup-item-text"><b>ZH</b> ${result['中文']}</div>`,
-          ];
-          if (result['备注']) {
-            s.push(`<div class="translate-extension-popup-item-text">${result['备注']}</div>`);
-          }
-          return `<div class="translate-extension-popup-item">${s.join('')}</div>`;
-        }).join(''),
-        '</div>',
-      ].join('');
+    expandDiv.addEventListener('click', expand);
+    document.body.addEventListener('click', close);
+  };
 
-      const collapse = (e: MouseEvent) => {
-        if (e.composedPath().includes(expandDiv)) {
-          return;
-        }
-        expandDiv.classList.add('exit');
-        document.removeEventListener('click', collapse);
-        setTimeout(() => {
-          expandDiv.remove();
-        }, 200);
-      };
-
-      const expand = () => {
-        const expandDiv = document.querySelector('.translate-extension-popup');
-        if (expandDiv) {
-          expandDiv.classList.add('expand');
-          expandDiv.removeEventListener('click', expand);
-        }
-      }
-
-      document.body.appendChild(expandDiv);
-      expandDiv.addEventListener('click', expand);
-      document.body.addEventListener('click', collapse);
-    }, 500);
-  }
+  setTimeout(openPopupThumb, 300);
 };
 
 document.addEventListener('mouseup', highlightHandler);

@@ -48,23 +48,23 @@ const onSearchButtonClick = () => {
         {#each searchResult as word}
           <li>
             <Tag color="pink" style="position: absolute; top: 16px; right: 16px;">
-              Source: {word['模块']}
+              Source: {word.src}
             </Tag>
             <div class="text">
               <span class="lang">
                 <Tag color="gray" style="font-weight: 500">EN</Tag>
               </span>
-              {word['英文']}
+              {word.en}
             </div>
             <div class="text">
               <span class="lang">
                 <Tag color="gray" style="font-weight: 500">ZH</Tag>
               </span>
-              {word['中文']}
+              {word.zh}
             </div>
-            {#if word['备注']}
+            {#if word.desc}
               <h3 class="remark-title">Remark</h3>
-              <div>{word['备注']}</div>
+              <div>{word.desc}</div>
             {/if}
           </li>
         {/each}

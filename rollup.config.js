@@ -7,6 +7,7 @@ import esbuild from 'rollup-plugin-esbuild';
 import css from 'rollup-plugin-css-only';
 import less from 'rollup-plugin-less-modules';
 import dsv from '@rollup/plugin-dsv';
+import image from '@rollup/plugin-image';
 
 import sveltePreprocess from 'svelte-preprocess';
 
@@ -52,12 +53,14 @@ export default [
       }),
       css({ output: 'bundle.css' }),
       dsv(),
+      image(),
       resolve({
         browser: true,
         dedupe: ['svelte']
       }),
       commonjs(),
       esbuild({
+        charset: 'utf8',
         sourceMap: !production,
         minify: production,
       }),
@@ -75,12 +78,15 @@ export default [
       sourcemap: true,
       format: 'iife',
       file: 'public/build/background.js',
-      globals: { 'webextension-polyfill': 'browser' },
+      globals: {
+        'webextension-polyfill': 'browser',
+      },
     },
     plugins: [
-      resolve(),
+      resolve({ preferBuiltins: false }),
       commonjs(),
       esbuild({
+        charset: 'utf8',
         sourceMap: !production,
         minify: production,
       }),
@@ -95,14 +101,18 @@ export default [
       sourcemap: true,
       format: 'iife',
       file: 'public/build/content-script.js',
-      globals: { 'webextension-polyfill': 'browser' },
+      globals: {
+        'webextension-polyfill': 'browser',
+      },
     },
     plugins: [
       less({ output: 'public/build/content-script.css' }),
       dsv(),
-      resolve(),
+      image(),
+      resolve({ preferBuiltins: false }),
       commonjs(),
       esbuild({
+        charset: 'utf8',
         sourceMap: !production,
         minify: production,
       }),

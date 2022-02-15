@@ -4,3 +4,6 @@
 /src/wordlist.csv
 
 .DS_Store
+
+*.crx
+*.pem
