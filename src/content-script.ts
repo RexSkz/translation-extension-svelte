@@ -66,7 +66,7 @@ const highlightHandler = (e: MouseEvent) => {
       }
       expandDiv.classList.add('exit');
       document.removeEventListener('click', close);
-      setTimeout(expandDiv.remove, 200);
+      setTimeout(() => expandDiv.remove(), 200);
     };
 
     const expand = function () {
