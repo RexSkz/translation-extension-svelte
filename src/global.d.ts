@@ -1,15 +1,12 @@
 /// <reference types="svelte" />
 
 interface Word {
-  src: string;
-  zh: string;
-  en: string;
-  desc: string;
-}
-
-declare module '*.csv' {
-  const parsed: Word[] = [];
-  export default parsed;
+  Project: string;
+  'Sub Project': string;
+  Chinese: string;
+  'Part of speech': string;
+  English: string;
+  Notes: string;
 }
 
 declare module '*.png';

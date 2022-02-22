@@ -1,11 +1,10 @@
 <script lang="ts">
+import browser from 'webextension-polyfill';
 import Button from './components/button/index.svelte';
 import Input from './components/input/index.svelte';
 import Tag from './components/tag/index.svelte';
 
 import matchSearchWord from './utils/match-search-word';
-
-import wordList from './wordlist.csv';
 
 let input = '';
 let searchWord = '';
@@ -21,7 +20,15 @@ const onSearchButtonClick = () => {
     return;
   }
   const lower = searchWord.toLowerCase();
-  searchResult = wordList.filter(word => matchSearchWord(lower, word)) || [];
+  const listener = (msg: any) => {
+    if (msg.type === 'get-wordlist-response') {
+      browser.runtime.onMessage.removeListener(listener);
+      const wordlist = msg.wordlist;
+      searchResult = wordlist.filter((word: Word) => matchSearchWord(lower, word));
+    }
+  };
+  browser.runtime.onMessage.addListener(listener);
+  browser.runtime.sendMessage({ type: 'get-wordlist' });
 };
 </script>
 
@@ -48,23 +55,23 @@ const onSearchButtonClick = () => {
         {#each searchResult as word}
           <li>
             <Tag color="pink" style="position: absolute; top: 16px; right: 16px;">
-              Source: {word.src}
+              Source: {word.Project}
             </Tag>
             <div class="text">
               <span class="lang">
                 <Tag color="gray" style="font-weight: 500">EN</Tag>
               </span>
-              {word.en}
+              {word.English}
             </div>
             <div class="text">
               <span class="lang">
                 <Tag color="gray" style="font-weight: 500">ZH</Tag>
               </span>
-              {word.zh}
+              {word.Chinese}
             </div>
-            {#if word.desc}
-              <h3 class="remark-title">Remark</h3>
-              <div>{word.desc}</div>
+            {#if word.Notes}
+              <h3 class="notes-title">Notes</h3>
+              <div>{word.Notes}</div>
             {/if}
           </li>
         {/each}
@@ -174,7 +181,7 @@ main {
     }
 
 
-    .remark-title {
+    .notes-title {
       font-size: 14px;
       line-height: 14px;
       margin: 12px 0 8px;

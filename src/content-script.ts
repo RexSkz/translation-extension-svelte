@@ -24,12 +24,12 @@ const createPopup = (e: MouseEvent, searchResult: Word[], text: string) => {
     '<div class="translate-extension-popup-items">',
     searchResult.map(result => {
       const s = [
-        `<div class="translate-extension-popup-item-text source">${result.src}</div>`,
-        `<div class="translate-extension-popup-item-text"><b>EN</b> ${result.en}</div>`,
-        `<div class="translate-extension-popup-item-text"><b>ZH</b> ${result.zh}</div>`,
+        `<div class="translate-extension-popup-item-text source">${result.Project}</div>`,
+        `<div class="translate-extension-popup-item-text"><b>EN</b> ${result.English}</div>`,
+        `<div class="translate-extension-popup-item-text"><b>ZH</b> ${result.Chinese}</div>`,
       ];
-      if (result['备注']) {
-        s.push(`<div class="translate-extension-popup-item-text">${result.desc}</div>`);
+      if (result.Notes) {
+        s.push(`<div class="translate-extension-popup-item-text">${result.Notes}</div>`);
       }
       return `<div class="translate-extension-popup-item">${s.join('')}</div>`;
     }).join(''),
@@ -78,7 +78,7 @@ const highlightHandler = (e: MouseEvent) => {
     document.body.addEventListener('click', close);
   };
 
-  setTimeout(openPopupThumb, 300);
+  setTimeout(openPopupThumb, 500);
 };
 
 document.addEventListener('mouseup', highlightHandler);

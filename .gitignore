@@ -1,4 +1,5 @@
 /node_modules/
+/public/_metadata/
 /public/build/
 
 /src/wordlist.csv
