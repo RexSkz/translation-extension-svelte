@@ -5,6 +5,7 @@ import Input from './components/input/index.svelte';
 import Tag from './components/tag/index.svelte';
 
 import matchSearchWord from './utils/match-search-word';
+import getPosText from './utils/get-pos-text';
 
 let input = '';
 let searchWord = '';
@@ -50,21 +51,32 @@ const onSearchButtonClick = () => {
   </form>
   {#if searchResult.length}
     <div>
-      <h3 class="search-result-title">Search Result</h3>
+      <h3 class="search-result-title">
+        Search Result
+        <span class="feedback-link">
+          <a href="https://forms.gle/s6EGjqUx7jaUU7Cx8" target="_blank">Feedback</a>
+        </span>
+      </h3>
       <ul class="word-list">
         {#each searchResult as word}
           <li>
             <Tag color="pink" style="position: absolute; top: 16px; right: 16px;">
               Source: {word.Project}
             </Tag>
+            <div class="text parts-of-speech">
+              <span class="lang" title="Parts of speech">
+                <Tag color="gray" style="font-weight: 500">POS</Tag>
+              </span>
+              {getPosText(word['Parts of speech'])}
+            </div>
             <div class="text">
-              <span class="lang">
+              <span class="lang" title="English">
                 <Tag color="gray" style="font-weight: 500">EN</Tag>
               </span>
               {word.English}
             </div>
             <div class="text">
-              <span class="lang">
+              <span class="lang" title="Simplified Chinese">
                 <Tag color="gray" style="font-weight: 500">ZH</Tag>
               </span>
               {word.Chinese}
@@ -140,6 +152,20 @@ main {
   margin: 24px 0;
   padding-left: 8px;
   font-size: 16px;
+
+  & > * {
+    vertical-align: middle;
+  }
+
+  .feedback-link {
+    color: @color-link;
+    float: right;
+    font-size: 14px;
+
+    &:hover {
+      color: @color-link-hover;
+    }
+  }
 }
 
 .word-list {
@@ -179,7 +205,6 @@ main {
         margin-right: 4px;
       }
     }
-
 
     .notes-title {
       font-size: 14px;

@@ -1,4 +1,4 @@
-const splitRe = /[`\-=\[\]\\;',.\/~!@#$%^&*()_+{}|:"<>?]+?/g;
+const splitRe = /[ `\-=\[\]\\;',.\/~!@#$%^&*()_+{}|:"<>?]+?/g;
 
 const matchSearchWord = (search: string, word: Word) => {
   const searchArr = search.toLowerCase().split(splitRe);

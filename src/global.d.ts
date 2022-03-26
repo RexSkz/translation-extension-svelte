@@ -1,12 +1,12 @@
 /// <reference types="svelte" />
 
 interface Word {
-  Project: string;
+  'Project': string;
   'Sub Project': string;
-  Chinese: string;
+  'Chinese': string;
   'Part of speech': string;
-  English: string;
-  Notes: string;
+  'English': string;
+  'Notes': string;
 }
 
 declare module '*.png';
