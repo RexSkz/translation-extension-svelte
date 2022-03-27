@@ -5,6 +5,7 @@
 /src/wordlist.csv
 
 .DS_Store
+.env
 
 *.crx
 *.pem

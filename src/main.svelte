@@ -1,5 +1,6 @@
 <script lang="ts">
 import browser from 'webextension-polyfill';
+
 import Button from './components/button/index.svelte';
 import Input from './components/input/index.svelte';
 import Tag from './components/tag/index.svelte';

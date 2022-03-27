@@ -11,6 +11,7 @@ specifiers:
   '@types/webextension-polyfill': ^0.8.2
   classnames: ^2.3.1
   d3-dsv: ^3.0.1
+  dotenv: ^16.0.0
   esbuild: ^0.14.10
   postcss: ^7.0.7
   rollup: ^2.3.4
@@ -32,6 +33,7 @@ specifiers:
 dependencies:
   classnames: 2.3.1
   d3-dsv: 3.0.1
+  dotenv: 16.0.0
   segmentit: 2.0.3
   svelte: 3.46.4
   webextension-polyfill: 0.8.0
@@ -444,6 +446,11 @@ packages:
     resolution: {integrity: sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==}
     engines: {node: '>=8'}
     dev: true
+
+  /dotenv/16.0.0:
+    resolution: {integrity: sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==}
+    engines: {node: '>=12'}
+    dev: false
 
   /errno/0.1.8:
     resolution: {integrity: sha512-dJ6oBr5SQ1VSd9qkk7ByRgb/1SH4JZjCHSW/mr63/QcXO9zLVxvJ6Oy13nio03rxpSnVDDjFor75SjVeZWPW/A==}

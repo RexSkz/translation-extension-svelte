@@ -56,7 +56,7 @@
 
   &.expand {
     width: 320px;
-    height: 240px;
+    height: 280px;
     cursor: unset;
 
     .translate-extension-popup-thumbnail {
@@ -79,6 +79,19 @@
       z-index: 1;
     }
 
+    .translate-extension-popup-feedback-link {
+      float: right;
+
+      a {
+        color: @color-link;
+        font-weight: normal;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
     .translate-extension-popup-items {
       padding: 0 8px;
 
@@ -90,6 +103,10 @@
 
         &:first-child {
           margin-top: 0;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
         }
 
         &-text {
@@ -112,6 +129,21 @@
             font-size: 12px;
           }
         }
+      }
+    }
+
+    .translate-extension-popup-google-translate {
+      position: sticky;
+      bottom: 0;
+      background: @color-gray-background;
+      padding: 8px;
+
+      span {
+        cursor: pointer;
+      }
+
+      a:hover {
+        text-decoration: underline;
       }
     }
   }

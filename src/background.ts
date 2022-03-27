@@ -38,8 +38,9 @@ const updateWordList = () => {
 updateWordList();
 
 browser.runtime.onMessage.addListener((message, sender) => {
-  updateWordList();
   if (message.type === 'get-wordlist') {
+    // this update will not affect the result, just for caching
+    updateWordList();
     if (sender.tab) {
       browser.tabs.sendMessage(sender.tab.id, {
         type: 'get-wordlist-response',
@@ -51,5 +52,26 @@ browser.runtime.onMessage.addListener((message, sender) => {
         wordlist,
       });
     }
+  }
+  if (message.type === 'google-translate') {
+    fetch(`https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_API_KEY}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        q: message.text,
+        target: 'zh',
+      }),
+    }).then(response => {
+      return response.status === 200 ? response.json() : Promise.reject();
+    }).then(({ data }) => {
+      browser.tabs.sendMessage(sender.tab.id, {
+        type: 'google-translate-response',
+        result: data.translations[0].translatedText,
+      });
+    }).catch(err => {
+      browser.tabs.sendMessage(sender.tab.id, {
+        type: 'google-translate-response',
+        result: `Error: ${err}`,
+      });
+    });
   }
 });

@@ -8,8 +8,11 @@ import css from 'rollup-plugin-css-only';
 import less from 'rollup-plugin-less-modules';
 import dsv from '@rollup/plugin-dsv';
 import image from '@rollup/plugin-image';
+import json from '@rollup/plugin-json';
 
 import sveltePreprocess from 'svelte-preprocess';
+
+import 'dotenv/config';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -54,6 +57,7 @@ export default [
       css({ output: 'bundle.css' }),
       dsv(),
       image(),
+      json(),
       resolve({
         browser: true,
         dedupe: ['svelte']
@@ -85,10 +89,14 @@ export default [
     plugins: [
       resolve({ preferBuiltins: false }),
       commonjs(),
+      json(),
       esbuild({
         charset: 'utf8',
         sourceMap: !production,
         minify: production,
+        define: {
+          GOOGLE_API_KEY: JSON.stringify(process.env.GOOGLE_API_KEY),
+        },
       }),
     ],
     watch: {
@@ -109,12 +117,16 @@ export default [
       less({ output: 'public/build/content-script.css' }),
       dsv(),
       image(),
+      json(),
       resolve({ preferBuiltins: false }),
       commonjs(),
       esbuild({
         charset: 'utf8',
         sourceMap: !production,
         minify: production,
+        define: {
+          GOOGLE_API_KEY: JSON.stringify(process.env.GOOGLE_API_KEY),
+        },
       }),
     ],
     watch: {
