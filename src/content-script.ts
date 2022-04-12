@@ -12,7 +12,7 @@ const ellipsis = (text: string, maxLength: number) => {
     return text;
   }
 
-  return `${text.substr(0, maxLength)}...`;
+  return `${text.substring(0, maxLength)}...`;
 };
 
 const createPopup = (e: MouseEvent, searchResult: Word[], text: string) => {
@@ -51,7 +51,7 @@ const createPopup = (e: MouseEvent, searchResult: Word[], text: string) => {
       text.length > 100 ? (
         `<a id="translate-extension-popup-google-translate-${gtId}" href="https://translate.google.cn/?sl=auto&tl=zh-CN&text=${encodeURI(text)}&op=translate" target="_blank">[text too long, click to open in new tab]</a>`
       ) : (
-        `<span id="translate-extension-popup-google-translate-${gtId}">[click to translate]</span>`,
+        `<span id="translate-extension-popup-google-translate-${gtId}">[click to translate]</span>`
       ),
     '</div>',
   ].join('');
@@ -84,19 +84,31 @@ const highlightHandler = (e: MouseEvent) => {
     return;
   }
 
-  const selection = document.getSelection();
-  const text = selection.toString().trim();
-  if (!text) {
-    return;
-  }
+  let previousExpandDiv: HTMLDivElement | null = null;
 
   const openPopupThumb = async () => {
+    const store = await browser.storage.local.get();
+    if (!store.options?.translateSelectText) {
+      return;
+    }
+
+    const selection = document.getSelection();
+    const text = selection.toString().trim();
+    if (!text) {
+      return;
+    }
+
     const searchResult = await matchAllWords(text);
     if (!searchResult.length) {
       return;
     }
 
+    if (previousExpandDiv) {
+      previousExpandDiv.remove();
+    }
+
     const expandDiv = createPopup(e, searchResult, text);
+    previousExpandDiv = expandDiv;
 
     const close = (e: MouseEvent) => {
       if (e.composedPath().includes(expandDiv)) {
@@ -116,7 +128,7 @@ const highlightHandler = (e: MouseEvent) => {
     document.body.addEventListener('click', close);
   };
 
-  setTimeout(openPopupThumb, 500);
+  setTimeout(openPopupThumb, 300);
 };
 
 document.addEventListener('mouseup', highlightHandler);

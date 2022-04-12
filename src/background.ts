@@ -9,9 +9,9 @@ const MAX_GOOGLE_ACCOUNT_TRIES = 5;
 let wordlist: Word[] = [];
 let lastUpdateTime = 0;
 
-const updateWordList = () => {
+const updateWordList = (force = false) => {
   const now = Date.now() / 1000 | 0;
-  if (now - lastUpdateTime < MIN_UPDATE_INTERVAL) {
+  if (!force && now - lastUpdateTime < MIN_UPDATE_INTERVAL) {
     return;
   }
   lastUpdateTime = now;
@@ -22,34 +22,55 @@ const updateWordList = () => {
       fetch(url, { credentials: 'include' })
         .then(response => response.status === 200 ? response.text() : Promise.reject())
         .then(text => csvParse(text))
-        .catch(error => []),
+        .catch(() => []),
     );
   }
-  Promise.all(promises).then((wordsSet: Word[][]) => {
+  return Promise.all(promises).then((wordsSet: Word[][]) => {
     for (const words of wordsSet) {
       if (words.length) {
         wordlist = words;
         console.log('Word list loaded', wordlist);
       }
     }
+    browser.storage.local.set({ wordlist, lastUpdateTime });
   });
 };
 
+(async () => {
+  const store = await browser.storage.local.get();
+  if (store.wordlist?.length) {
+    wordlist = store.wordlist;
+    lastUpdateTime = store.lastUpdateTime;
+    browser.runtime.sendMessage({
+      type: 'get-wordlist-response',
+      wordlist,
+      lastUpdateTime,
+    });
+  }
+})();
+
 updateWordList();
 
-browser.runtime.onMessage.addListener((message, sender) => {
+browser.runtime.onMessage.addListener(async (message, sender) => {
   if (message.type === 'get-wordlist') {
-    // this update will not affect the result, just for caching
-    updateWordList();
+    if (message.force) {
+      // this will force fetch the newest result
+      await updateWordList(true);
+    } else {
+      // this update will not affect the result, just for caching
+      updateWordList();
+    }
     if (sender.tab) {
       browser.tabs.sendMessage(sender.tab.id, {
         type: 'get-wordlist-response',
         wordlist,
+        lastUpdateTime,
       });
     } else {
       browser.runtime.sendMessage({
         type: 'get-wordlist-response',
         wordlist,
+        lastUpdateTime,
       });
     }
   }

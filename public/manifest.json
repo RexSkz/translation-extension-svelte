@@ -9,6 +9,9 @@
     "48": "icons/48.png",
     "128": "icons/128.png"
   },
+  "permissions": [
+    "storage"
+  ],
   "background": {
     "service_worker": "build/background.js"
   },
@@ -20,8 +23,9 @@
       "all_frames": true
     }
   ],
+  "options_page": "options.html",
   "action": {
-    "default_popup": "index.html",
+    "default_popup": "popup.html",
     "default_title": "__MSG_extName__",
     "default_icon": {
       "19": "icons/19.png",

@@ -9,17 +9,23 @@ export let style = '';
 export let type: ButtonType = 'default';
 export let htmlType = '';
 export let onClick: (e: Event) => any = () => false;
+export let disabled = false;
+export let loading = false;
 
 const classes = classnames('ssc-button', className, {
   [`ssc-button-${type}`]: type,
+  'ssc-button-disabled': disabled || loading,
+  'ssc-button-loading': loading,
 });
+
+const noop = () => false;
 </script>
 
 <button
   class={classes}
   type={htmlType}
   style={style}
-  on:click={onClick}
+  on:click={e => (loading || disabled) ? noop() : onClick(e)}
 >
   <slot />
 </button>
