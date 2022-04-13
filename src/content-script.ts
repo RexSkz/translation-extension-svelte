@@ -88,7 +88,7 @@ const highlightHandler = (e: MouseEvent) => {
 
   const openPopupThumb = async () => {
     const store = await browser.storage.local.get();
-    if (!store.options?.translateSelectText) {
+    if (store.options?.translateSelectText === false) {
       return;
     }
 
