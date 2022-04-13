@@ -110,7 +110,7 @@ onMount(async () => {
   <h2>Updates</h2>
   {#if checkingForUpdates}
     <p>Checking for updates...</p>
-  {:else if latestVersion.version}
+  {:else if latestVersion.version !== currentVersion}
     <p>Current version: <abbr>{currentVersion}</abbr></p>
     <p>Latest version: <abbr>{latestVersion.version}</abbr>, an update is available!</p>
     <Button onClick={() => window.open(latestVersion.zipball_url)}>Download the latest version</Button>
