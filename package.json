@@ -1,6 +1,6 @@
 {
-  "name": "svelte-app",
-  "version": "1.0.0",
+  "name": "translation-extension-svelte",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "build": "rollup -c",
@@ -11,9 +11,12 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-dsv": "^2.0.3",
+    "@rollup/plugin-image": "^2.1.1",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
     "@tsconfig/svelte": "^2.0.0",
+    "@types/webextension-polyfill": "^0.8.2",
     "esbuild": "^0.14.10",
     "postcss": "^7.0.7",
     "rollup": "^2.3.4",
@@ -31,7 +34,10 @@
   },
   "dependencies": {
     "classnames": "^2.3.1",
+    "d3-dsv": "^3.0.1",
+    "dotenv": "^16.0.0",
+    "segmentit": "^2.0.3",
     "svelte": "^3.0.0",
-    "webextension-polyfill": "^0.8.0"
+    "webextension-polyfill": "^0.10.0"
   }
 }

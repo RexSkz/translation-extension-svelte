@@ -1,6 +1,11 @@
 /node_modules/
+/public/_metadata/
 /public/build/
 
 /src/wordlist.csv
 
 .DS_Store
+.env
+
+*.crx
+*.pem

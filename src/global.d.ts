@@ -1,13 +1,13 @@
 /// <reference types="svelte" />
 
 interface Word {
-  模块: string;
-  中文: string;
-  英文: string;
-  备注: string;
+  'Source': string;
+  'Sub Project': string;
+  'Chinese': string;
+  'Part of speech': string;
+  'English': string;
+  'Notes': string;
+  'Example': string;
 }
 
-declare module '*.csv' {
-  const parsed: Word[] = [];
-  export default parsed;
-}
+declare module '*.png';
