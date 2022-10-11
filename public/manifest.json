@@ -1,6 +1,6 @@
 {
   "name": "Translate Extension",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "manifest_version": 3,
   "description": "A Chrome extension for translation using private wordlists.",
   "default_locale": "en",
